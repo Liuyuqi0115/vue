@@ -1,4 +1,17 @@
 // 关闭eslint....
-// module.exports={
-//     lintOnSave:false
-// }
+module.exports = {
+  rules: {
+    'no-new': 'off'
+  }
+}
+
+module.exports = {
+  devServer: {
+    proxy: {
+      '/ajax': {
+        target: 'http://m.maoyan.com',
+        changeOrigin: true
+      }
+    }
+  }
+}

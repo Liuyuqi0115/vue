@@ -3,9 +3,8 @@
     <div>
       <router-view></router-view>
     </div>
-    <div class="footer">
-      <Navbar></Navbar>
-    </div>
+
+    <Navbar></Navbar>
   </div>
 </template>
 <script>
@@ -17,9 +16,13 @@ export default {
   },
 
   mounted() {
-    axios.get('http://baidu.com').then((rst) => {
-      console.log(rst.data)
-    })
+    axios
+      .get(
+        '/ajax/movieOnInfoList?token=&optimus_uuid=5A1FA230A98111EBBCAA6146CD132B4320EC1D7F37FE436CBFD4CC388A532BC0&optimus_risk_level=71&optimus_code=10'
+      )
+      .then((rst) => {
+        console.log(rst.data, '11111111')
+      })
   }
 }
 </script>
@@ -29,7 +32,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+
   color: #2c3e50;
 }
 li {
@@ -48,16 +51,5 @@ li {
       color: #42b983;
     }
   }
-}
-
-.footer {
-  height: 50px;
-  vertical-align: middle;
-  position: fixed;
-  width: 100%;
-  bottom: 5px;
-  padding: auto;
-  background: darkgray;
-  text-align: left;
 }
 </style>
