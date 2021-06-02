@@ -29,6 +29,7 @@ nav {
   text-align: center;
   vertical-align: middle;
   padding: 0px;
+  z-index: 99;
   ul {
     display: flex;
     background: darkgray;

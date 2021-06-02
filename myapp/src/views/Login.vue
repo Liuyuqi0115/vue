@@ -16,6 +16,7 @@ export default {
   methods: {
     onSubmit() {
       localStorage.setItem('token', 'userName')
+      console.log(11111)
     }
   }
 }

@@ -3,27 +3,21 @@
     <div>
       <router-view></router-view>
     </div>
-
-    <Navbar></Navbar>
+    <Navbar v-show="isTabberShow"></Navbar>
+    <!-- <Navbar v-show="$store.state.isTabberShow"></Navbar> -->
   </div>
 </template>
 <script>
 import Navbar from './components/Navbar'
-import axios from 'axios'
+import { mapState } from 'vuex'
 export default {
   components: {
     Navbar
   },
-
-  mounted() {
-    axios
-      .get(
-        '/ajax/movieOnInfoList?token=&optimus_uuid=5A1FA230A98111EBBCAA6146CD132B4320EC1D7F37FE436CBFD4CC388A532BC0&optimus_risk_level=71&optimus_code=10'
-      )
-      .then((rst) => {
-        console.log(rst.data, '11111111')
-      })
-  }
+  computed: {
+    ...mapState('TabberModule', ['isTabberShow'])
+  },
+  mounted() {}
 }
 </script>
 

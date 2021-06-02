@@ -1,7 +1,13 @@
 <template>
   <div>
-    <ul>
-      <li
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      :immediate-check="false"
+      @load="onLoad"
+    >
+      <van-cell
         v-for="item in listNowPlay"
         :key="item.filmId"
         @click="itemClick(item)"
@@ -15,24 +21,20 @@
           </p>
           <p>{{ item.nation }}|{{ item.runtime }} 分钟</p>
         </div>
-      </li>
-    </ul>
+      </van-cell>
+    </van-list>
   </div>
 </template>
 
 <script>
 import httpRequ from '@/util/baseHttp'
+import Vue from 'vue'
+import { List, cell } from 'vant'
+import { mapState } from 'vuex'
+Vue.use(List).use(cell)
 export default {
   mounted() {
-    httpRequ({
-      url: '/gateway?cityId=310100&pageNum=1&pageSize=10&type=1&k=8490756',
-      headers: {
-        'X-Host': 'mall.film-ticket.film.list'
-      },
-      method: 'get'
-    }).then((res) => {
-      this.listNowPlay = res.data.data.films
-    })
+    this.requestData((this.currentPage = 1))
   },
   filters: {
     actorsFilter(data) {
@@ -40,17 +42,43 @@ export default {
       return data.map((item) => item.name).join('>')
     }
   },
+  computed: {
+    ...mapState('CityModule', ['localCity'])
+  },
   data() {
     return {
-      listNowPlay: []
+      listNowPlay: [],
+      list: [],
+      loading: false,
+      finished: false,
+      currentPage: 1,
+      listNowPlayTotal: 1
     }
   },
 
   methods: {
+    requestData(page) {
+      httpRequ({
+        url: `gateway?cityId=${this.localCity.cityId}&pageNum=${page}&pageSize=10&type=1&k=8490756`,
+        // url: `gateway?cityId=${this.store.state.localCity.cityId}&pageNum=${page}&pageSize=10&type=1&k=8490756`,
+        headers: {
+          'X-Host': 'mall.film-ticket.film.list'
+        },
+        method: 'get'
+      }).then((res) => {
+        this.listNowPlay = [...this.listNowPlay, ...res.data.data.films]
+        this.listNowPlayTotal = res.data.data.total
+        this.finished = this.listNowPlay.length === this.listNowPlayTotal
+        this.loading = false
+      })
+    },
+    onLoad() {
+      this.currentPage += 1
+      this.requestData(this.currentPage)
+    },
     itemClick(item) {
       // 路径调转
       // this.$router.push(`/detail/${item.id}`)
-
       this.$router.push({
         name: 'lyqDetail',
         params: {
@@ -63,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li {
+.van-cell {
   overflow: hidden;
   padding: 10px;
   img {

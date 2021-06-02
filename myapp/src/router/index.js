@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Center from '../views/Center.vue'
 import Film from '../views/Film.vue'
 import Cinema from '../views/Cinema.vue'
+import Search from '../views/Search.vue'
 import Nowplaying from '../views/film/Nowplaying'
 import ComingSoon from '../views/film/ComingSoon'
 import Detail from '../views/Detail'
@@ -48,8 +49,16 @@ const routes = [
     component: Cinema
   },
   {
+    path: '/cinema/search',
+    component: Search
+  },
+  {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/city',
+    component: () => import('../views/SelectCity.vue')
   }
 ]
 

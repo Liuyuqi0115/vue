@@ -9,7 +9,7 @@
       </div>
     </film-swiper>
     <filmHeader
-      style="position: sticky; top: 0px; backround: write"
+      style="position: sticky; top: 0px; backround: write; z-index: 99"
     ></filmHeader>
 
     <router-view></router-view>
